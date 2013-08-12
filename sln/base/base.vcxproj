@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{DA1FCDB9-A41B-4922-9536-7F3946E92E26}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>base</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\..\lib\windows\$(Configuration)\</OutDir>
+    <TargetName>yanrk_base</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\..\lib\windows\$(Configuration)\</OutDir>
+    <IgnoreImportLibrary>false</IgnoreImportLibrary>
+    <TargetName>yanrk_base</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;BASE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../inc/base;</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4251;4996;</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <GenerateMapFile>false</GenerateMapFile>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;BASE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../inc/base;</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4251;4996;</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <GenerateMapFile>false</GenerateMapFile>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\inc\base\base_asyn_log.h" />
+    <ClInclude Include="..\..\inc\base\base_base64.h" />
+    <ClInclude Include="..\..\inc\base\base_base_log.h" />
+    <ClInclude Include="..\..\inc\base\base_byte_stream.h" />
+    <ClInclude Include="..\..\inc\base\base_common.h" />
+    <ClInclude Include="..\..\inc\base\base_convert.hpp" />
+    <ClInclude Include="..\..\inc\base\base_directory.h" />
+    <ClInclude Include="..\..\inc\base\base_exception.h" />
+    <ClInclude Include="..\..\inc\base\base_export.h" />
+    <ClInclude Include="..\..\inc\base\base_guard.hpp" />
+    <ClInclude Include="..\..\inc\base\base_hex.h" />
+    <ClInclude Include="..\..\inc\base\base_handle_manager.hpp" />
+    <ClInclude Include="..\..\inc\base\base_ini.h" />
+    <ClInclude Include="..\..\inc\base\base_io.h" />
+    <ClInclude Include="..\..\inc\base\base_lazy_log.h" />
+    <ClInclude Include="..\..\inc\base\base_linux_locker.hpp" />
+    <ClInclude Include="..\..\inc\base\base_linux_thread.h" />
+    <ClInclude Include="..\..\inc\base\base_locker.h" />
+    <ClInclude Include="..\..\inc\base\base_log.h" />
+    <ClInclude Include="..\..\inc\base\base_log_types.h" />
+    <ClInclude Include="..\..\inc\base\base_macro.h" />
+    <ClInclude Include="..\..\inc\base\base_memory.h" />
+    <ClInclude Include="..\..\inc\base\base_memory_pool.hpp" />
+    <ClInclude Include="..\..\inc\base\base_namespace.h" />
+    <ClInclude Include="..\..\inc\base\base_null_locker.h" />
+    <ClInclude Include="..\..\inc\base\base_object_pool.hpp" />
+    <ClInclude Include="..\..\inc\base\base_sync_log.h" />
+    <ClInclude Include="..\..\inc\base\base_thread.h" />
+    <ClInclude Include="..\..\inc\base\base_string.h" />
+    <ClInclude Include="..\..\inc\base\base_time.h" />
+    <ClInclude Include="..\..\inc\base\base_timer.h" />
+    <ClInclude Include="..\..\inc\base\base_timer_manager.h" />
+    <ClInclude Include="..\..\inc\base\base_uncopy.h" />
+    <ClInclude Include="..\..\inc\base\base_utility.h" />
+    <ClInclude Include="..\..\inc\base\base_windows_locker.h" />
+    <ClInclude Include="..\..\inc\base\base_windows_thread.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\base\base_asyn_log.cpp" />
+    <ClCompile Include="..\..\src\base\base_base64.cpp" />
+    <ClCompile Include="..\..\src\base\base_base_log.cpp" />
+    <ClCompile Include="..\..\src\base\base_byte_stream.cpp" />
+    <ClCompile Include="..\..\src\base\base_directory.cpp" />
+    <ClCompile Include="..\..\src\base\base_exception.cpp" />
+    <ClCompile Include="..\..\src\base\base_hex.cpp" />
+    <ClCompile Include="..\..\src\base\base_ini.cpp" />
+    <ClCompile Include="..\..\src\base\base_lazy_log.cpp" />
+    <ClCompile Include="..\..\src\base\base_linux_thread.cpp" />
+    <ClCompile Include="..\..\src\base\base_load_log_config.cpp" />
+    <ClCompile Include="..\..\src\base\base_log.cpp" />
+    <ClCompile Include="..\..\src\base\base_null_locker.cpp" />
+    <ClCompile Include="..\..\src\base\base_string.cpp" />
+    <ClCompile Include="..\..\src\base\base_sync_log.cpp" />
+    <ClCompile Include="..\..\src\base\base_time.cpp" />
+    <ClCompile Include="..\..\src\base\base_timer.cpp" />
+    <ClCompile Include="..\..\src\base\base_timer_manager.cpp" />
+    <ClCompile Include="..\..\src\base\base_uncopy.cpp" />
+    <ClCompile Include="..\..\src\base\base_windows_locker.cpp" />
+    <ClCompile Include="..\..\src\base\base_windows_thread.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

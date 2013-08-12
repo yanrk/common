@@ -1,0 +1,90 @@
+2013-05-25 10:57:23
+	common/base:
+	1. base_namespace.h:       命名空间的定义文件
+	2. base_export.h:          动态库导出宏的定义文件
+	3. base_common.h:          常用头文件集合: base_namespace.h, base_export.h
+	4. base_macro.h:           一些简单宏
+	5. base_io.h:              标准IO的简单封装宏
+	6. base_memory.h:          new、new[]、delete、delete[]的简单封装宏
+	7. base_uncopy.hpp:        不可拷贝类的基类
+	8. base_exception.h:       简单异常类, 及抛出此异常的宏BASE_THROW()
+	9. base_string.h:          snprintf等函数的跨平台封装: base_snprintf, base_vsnprintf
+	10. base_hex.h:            十六进制格式编解码(转换)
+	11. base_base64.h:         Base64编解码
+	12. base_time.h:           时间相关的函数的封装
+	13. base_locker.h:         简单的线程锁、进程锁
+	14. base_guard.h:          资源守卫, 构造时获取资源, 析构时释放资源
+	15. base_thread.h:         线程对象
+	16. base_object_pool.hpp:  简单的对象池类模板
+	17. base_byte_stream.h:    网络字节流实现, IBStream输入流, OBStream输出流
+	18. base_log_types.h:      日志模块配置类型
+	19. base_log.h:            日志模块的初始化、销毁函数, 及一些日志操作宏
+
+2013-05-29 18:30:55
+	common/base:
+	1. base_macro.h:           增加一些简单宏
+	2. base_export.h:          增加、修改一些宏
+	3. base_common.h:          增加宏和自定义, 增加包含base_macro.h
+
+2013-05-30 21:10:31
+	common/base:
+	1. base_uncopy.hpp:        修改为: base_uncopy.h
+	2. base_null_locker.h:     新增文件, 空锁, 其申请、释放资源时不做任何处理
+	3. base_object_pool.hpp:   增加一个模板参数, 指定内部锁类型, 默认为NullLocker
+
+2013-07-18 18:50:03
+	common/base:
+	1. base_directory.h        遍历目录
+	2. base_memory_pool.hpp    内存池
+	3. base_time.h             修改个别函数参数、返回值的类型
+	common/net:
+	1. net_common_types.h      一些用于跨平台的macro、typedef
+	2. net_tcp_handler_base.h  网络字节流的数据处理基类 (实现类)
+	3. net_tcp_server_base.h   tcp server的纯虚基类 (接口类)
+	4. net_tcp_server.h        tcp server的基类 (派生类可按需要实现: send_message、handle_message)
+	5. net_tcp_client.h        tcp client的基类 (派生类可按需要实现: send_message、handle_message)
+
+2013-07-23 22:37:45
+	common/net:
+	修改掉linux下的BUG，并优化部分实现，此版本的net基本稳定，包括效率与功能
+
+2013-07-27 20:51:03
+	common/base:
+	1. base_log_types.h        修改日志模式的名字
+	2. base_string.h           增加功能: 去除字符串头尾指定字符、忽略大小写比较、字符串与标量类型的转换
+	3. base_ini.h              ini配置文件的读取、修改
+
+2013-07-27 21:50:12
+	common/base:
+	1. base_ini.h              增加读取、修改boolean类型配置的接口
+
+2013-08-03 16:40:54
+	common/base:
+	1. base_ini.h              公开clear接口，修改了一处BUG
+	common/net:
+	对框架进行了一次大整改
+	1. net_linux_tcp_connection.h      实现linux下的tcp基本操作 (epoll)
+	2. net_windows_tcp_connection.h    实现windows下的tcp的基本操作 (iocp)
+	3. net_tcp_connection.h            包含上面两个头文件
+	4. net_data_handler.h              缓存、拆分、组合网络数据
+	5. net_tcp_manager.h               封装了tcp的所有操作，设置个IMessageHandler的槽后，消息会通知到槽
+	6. net_message_handler_base.h      外部消息操作的基类，使用者须写一个处理自身协议的子类，用来处理消息、协议
+	连接数现状：
+	linux下连接1017个后，就会产生错误: 
+	error 24: 打开文件数过多
+	windows下连接个3963后，就会产生错误：
+	error 10048: 通常每个套接字地址(协议/网络地址/端口)只允许使用一次
+	error 10055: 由于系统缓冲区空间不足或列队已满，不能执行套接字上的操作
+
+2013-08-04 20:55:21
+	common/base:
+	1. base_convert.hpp        字符串与内建类型数据之间的C++转换方法
+	2. base_ini.h              获知、设置配置的实现接口改成模板成员函数
+	3. base_utility.h          助手函数集合，现只提供导入日志配置的功能
+
+2013-08-11 04:30:45
+	common/base:
+	1. base_time.h                 去掉秒级的sleep，增加毫秒级的sleep
+	2. base_timer_manager.h        多任务定时器
+	3. base_timer.h                单任务定时器
+	4. base_handle_manager.hpp     管理唯一标识的类模板
