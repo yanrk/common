@@ -109,9 +109,9 @@ bool BaseIni::get_value(const std::string & app_name,
     std::string key_value;
     if (!get_value(app_name, key_name, key_value))
     {
-        return(false);
+        return false;
     }
-    return(base_string2type(key_value, value));
+    return base_string2type(key_value, value);
 }
 
 template <typename T>
@@ -121,9 +121,9 @@ bool BaseIni::set_value(const std::string & app_name,
     std::string key_value;
     if (!base_type2string(value, key_value))
     {
-        return(false);
+        return false;
     }
-    return(set_value(app_name, key_name, key_value));
+    return set_value(app_name, key_name, key_value);
 }
 
 NAMESPACE_COMMON_END

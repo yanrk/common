@@ -82,7 +82,7 @@ bool log_init(const LOG_CONFIG & log_config)
             {
                 assert(false);
                 BASE_THROW("invalid log write mode");
-                return(false);
+                return false;
             }
         }
 
@@ -90,16 +90,16 @@ bool log_init(const LOG_CONFIG & log_config)
         {
             assert(nullptr != g_log[type]);
             BASE_THROW("create log[%s] failed", LOG_TYPE_INFO[type]);
-            return(false);
+            return false;
         }
     }
 
     if (g_need_aysn_write_thread)
     {
-        return(AsynLog::acquire_write_thread());
+        return AsynLog::acquire_write_thread();
     }
 
-    return(true);
+    return true;
 }
 
 void log_exit()

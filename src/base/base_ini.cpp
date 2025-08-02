@@ -28,7 +28,7 @@ BaseIni::KEY_NODE::KEY_NODE(const std::string & name, const std::string & value)
 
 bool BaseIni::KEY_NODE::operator == (const std::string & name) const
 {
-    return(name == m_name);
+    return name == m_name;
 }
 
 BaseIni::APP_NODE::APP_NODE(const std::string & name)
@@ -41,7 +41,7 @@ BaseIni::APP_NODE::APP_NODE(const std::string & name)
 
 bool BaseIni::APP_NODE::operator == (const std::string & name) const
 {
-    return(name == m_name);
+    return name == m_name;
 }
 
 BaseIni::BaseIni()
@@ -75,7 +75,7 @@ bool BaseIni::load
     std::ifstream ifs(file_name.c_str());
     if (!ifs.is_open())
     {
-        return(false);
+        return false;
     }
 
     const int bufsiz = 4096;
@@ -115,14 +115,14 @@ bool BaseIni::load
 
             if (app_name.empty())
             {
-                return(false);
+                return false;
             }
 
             if (support_modify)
             {
                 if (!add_app_node(app_name, comment))
                 {
-                    return(false);
+                    return false;
                 }
             }
 
@@ -133,7 +133,7 @@ bool BaseIni::load
             std::string::size_type pos = message.find('=');
             if (std::string::npos == pos)
             {
-                return(false);
+                return false;
             }
 
             std::string key_name(message.begin(), message.begin() + pos);
@@ -142,14 +142,14 @@ bool BaseIni::load
             base_trim(key_value);
             if (key_name.empty())
             {
-                return(false);
+                return false;
             }
 
             if (!m_pair_map.insert(
                     std::make_pair(std::make_pair(app_name, key_name), 
                                    key_value)).second)
             {
-                return(false);
+                return false;
             }
 
             if (support_modify)
@@ -159,13 +159,13 @@ bool BaseIni::load
                     std::list<std::string> app_comment;
                     if (!add_app_node(app_name, app_comment))
                     {
-                        return(false);
+                        return false;
                     }
                 }
 
                 if (!add_key_node(app_name, key_name, key_value, comment))
                 {
-                    return(false);
+                    return false;
                 }
             }
 
@@ -180,14 +180,14 @@ bool BaseIni::load
     m_comment_char = comment_char;
     m_last_comment.swap(comment);
 
-    return(true);
+    return true;
 }
 
 bool BaseIni::save()
 {
     if (!m_support_modify)
     {
-        return(false);
+        return false;
     }
 
     const std::string tmp_file(m_file_name + "_tmp.ini");
@@ -197,7 +197,7 @@ bool BaseIni::save()
     std::ofstream ofs(m_file_name, std::ios::trunc);
     if (!ofs.is_open())
     {
-        return(false);
+        return false;
     }
 
     APP_ITER app_iter = m_app_list.begin();
@@ -220,7 +220,7 @@ bool BaseIni::save()
 
     base_unlink(tmp_file.c_str());
 
-    return(true);
+    return true;
 }
 
 bool BaseIni::get_value
@@ -232,18 +232,18 @@ bool BaseIni::get_value
 {
     if (key_name.empty())
     {
-        return(false);
+        return false;
     }
 
     PAIR_ITER pair_iter = m_pair_map.find(std::make_pair(app_name, key_name));
     if (m_pair_map.end() != pair_iter)
     {
         value = pair_iter->second;
-        return(true);
+        return true;
     }
     else
     {
-        return(false);
+        return false;
     }
 }
 
@@ -256,12 +256,12 @@ bool BaseIni::set_value
 {
     if (!m_support_modify)
     {
-        return(false);
+        return false;
     }
 
     if (key_name.empty())
     {
-        return(false);
+        return false;
     }
 
     APP_ITER app_iter = std::find(m_app_list.begin(), m_app_list.end(), app_name);
@@ -284,7 +284,7 @@ bool BaseIni::set_value
 
     m_pair_map[std::make_pair(app_name, key_name)] = value;
 
-    return(true);
+    return true;
 }
 
 bool BaseIni::add_app_node
@@ -296,13 +296,13 @@ bool BaseIni::add_app_node
     if (m_app_list.end() != 
         std::find(m_app_list.begin(), m_app_list.end(), app_name))
     {
-        return(false);
+        return false;
     }
 
     m_app_list.push_back(APP_NODE(app_name));
     APP_NODE & app_node = m_app_list.back();
     app_node.m_comment.swap(comment);
-    return(true);
+    return true;
 }
 
 bool BaseIni::add_key_node
@@ -317,20 +317,20 @@ bool BaseIni::add_key_node
         std::find(m_app_list.rbegin(), m_app_list.rend(), app_name);
     if (m_app_list.rend() == app_re_iter)
     {
-        return(false);
+        return false;
     }
 
     std::list<KEY_NODE> & key_list = app_re_iter->m_key_list;
     if (key_list.end() != 
         std::find(key_list.begin(), key_list.end(), key_name))
     {
-        return(false);
+        return false;
     }
 
     key_list.push_back(KEY_NODE(key_name, key_value));
     KEY_NODE & key_node = key_list.back();
     key_node.m_comment.swap(comment);
-    return(true);
+    return true;
 }
 
 void BaseIni::clear()

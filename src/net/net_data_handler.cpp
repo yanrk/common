@@ -45,7 +45,7 @@ static YRK_THR_FUNC_RET_T YRK_STDCALL handle_msg_run(void * argument)
         data_handler.handle_thread_run(thread_index);
         BASE_DELETE(handle_msg_param);
     }
-    return(THREAD_DEFAULT_RET);
+    return THREAD_DEFAULT_RET;
 }
 
 NetDataHandler::RecvNode::RecvNode()
@@ -89,12 +89,12 @@ bool NetDataHandler::set_thread_count(int thread_count)
 {
     if (m_init)
     {
-        return(false);
+        return false;
     }
 
     m_handle_thread_count = (0 >= thread_count ? 1 : thread_count);
 
-    return(true);
+    return true;
 }
 
 bool NetDataHandler::init()
@@ -107,24 +107,24 @@ bool NetDataHandler::init()
     if (nullptr == m_recv_data_locker)
     {
         RUN_LOG_CRI("create recv_data_locker failed");
-        return(false);
+        return false;
     }
 
     m_recv_data.resize(m_handle_thread_count);
 
     if (!create_handle_thread())
     {
-        return(false);
+        return false;
     }
 
-    return(true);
+    return true;
 }
 
 bool NetDataHandler::exit()
 {
     if (!m_init)
     {
-        return(true);
+        return true;
     }
 
     m_init = false;
@@ -142,7 +142,7 @@ bool NetDataHandler::exit()
 
     if (nullptr == m_handle_thread)
     {
-        return(true);
+        return true;
     }
 
     BASE_DELETE_A(m_handle_thread);
@@ -186,7 +186,7 @@ bool NetDataHandler::exit()
     m_recv_node_pool.clear();
     m_send_node_pool.clear();
 
-    return(true);
+    return true;
 }
 
 void NetDataHandler::handle_connect(socket_t sockfd, 
@@ -422,7 +422,7 @@ bool NetDataHandler::save_send_data(socket_t sockfd, const char * data, int size
         m_send_data.find(sockfd);
     if (m_send_data.end() == iter)
     {
-        return(false);
+        return false;
     }
 
     SendNode * send_node = nullptr;
@@ -430,7 +430,7 @@ bool NetDataHandler::save_send_data(socket_t sockfd, const char * data, int size
     if (send_node_list.empty())
     {
         RUN_LOG_ERR("send node list is empty");
-        return(false);
+        return false;
     }
     else
     {
@@ -463,7 +463,7 @@ bool NetDataHandler::save_send_data(socket_t sockfd, const char * data, int size
             if (nullptr == send_node)
             {
                 RUN_LOG_ERR("acquire send_node failed");
-                return(false);
+                return false;
             }
             send_node->send_buffer = send_buffer;
             send_node->length = 0;
@@ -475,7 +475,7 @@ bool NetDataHandler::save_send_data(socket_t sockfd, const char * data, int size
 
     send_data_guard.release();
 
-    return(true);
+    return true;
 }
 
 bool NetDataHandler::create_handle_thread()
@@ -484,7 +484,7 @@ bool NetDataHandler::create_handle_thread()
     if (nullptr == m_handle_thread)
     {
         RUN_LOG_CRI("create handle_thread failed");
-        return(false);
+        return false;
     }
 
     for (int index = 0; index < m_handle_thread_count; ++index)
@@ -494,7 +494,7 @@ bool NetDataHandler::create_handle_thread()
         if (nullptr == handle_msg_param)
         {
             RUN_LOG_CRI("create handle_msg_param failed");
-            return(false);
+            return false;
         }
 
         BaseThread & handle_thread = m_handle_thread[index];
@@ -503,11 +503,11 @@ bool NetDataHandler::create_handle_thread()
         {
             BASE_DELETE(handle_msg_param);
             RUN_LOG_CRI("the %dth handle thread acquire failed", index + 1);
-            return(false);
+            return false;
         }
     }
 
-    return(true);
+    return true;
 }
 
 void NetDataHandler::handle_thread_run(int index)
@@ -551,7 +551,7 @@ bool NetDataHandler::send_data(socket_t sockfd, const char * data, int size)
     if (nullptr == memory_node)
     {
         RUN_LOG_ERR("acquire memory_node failed");
-        return(false);
+        return false;
     }
 
     memory_node->size = 0;
@@ -565,14 +565,14 @@ bool NetDataHandler::send_data(socket_t sockfd, const char * data, int size)
 
     m_memory_pool.release(memory_node);
 
-    return(save_ret);
+    return save_ret;
 }
 
 bool NetDataHandler::try_send(std::list<SendNode *> & send_node_list)
 {
     if (send_node_list.empty())
     {
-        return(false);
+        return false;
     }
 
     SendNode * send_node = send_node_list.front();
@@ -595,12 +595,12 @@ bool NetDataHandler::try_send(std::list<SendNode *> & send_node_list)
     if (send_buffer->empty())
     {
         suspend_send(send_buffer);
-        return(false);
+        return false;
     }
     else
     {
         continue_send(send_buffer);
-        return(true);
+        return true;
     }
 }
 

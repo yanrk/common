@@ -65,17 +65,17 @@ bool HandleManager<HandleType, LockerType>::acquire(HandleType & handle)
     {
         handle = m_unused_handle.back();
         m_unused_handle.pop_back();
-        return(true);
+        return true;
     }
 
     if (m_next_handle >= m_max_handle)
     {
-        return(false);
+        return false;
     }
 
     handle = m_next_handle++;
 
-    return(true);
+    return true;
 }
 
 template <typename HandleType, typename LockerType>
@@ -86,13 +86,13 @@ bool HandleManager<HandleType, LockerType>::release(HandleType handle)
     if (handle <  m_min_handle || 
         handle >= m_next_handle)
     {
-        return(false);
+        return false;
     }
 
     if (m_unused_handle.end() != 
         std::find(m_unused_handle.begin(), m_unused_handle.end(), handle))
     {
-        return(false);
+        return false;
     }
 
     if (handle + 1 == m_next_handle)
@@ -120,7 +120,7 @@ bool HandleManager<HandleType, LockerType>::release(HandleType handle)
     }
     m_unused_handle.erase(m_unused_handle.begin(), iter);
 
-    return(true);
+    return true;
 }
 
 NAMESPACE_COMMON_END

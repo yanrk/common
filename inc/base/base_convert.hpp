@@ -26,7 +26,7 @@ bool base_string2type(const std::string & str, T & val)
     std::istringstream iss(str);
     iss.setf(std::ios::boolalpha);
     iss >> val;
-    return(!iss.fail());
+    return !iss.fail();
 }
 
 template <typename T>
@@ -37,7 +37,7 @@ bool base_type2string(T val, std::string & str)
     oss.setf(std::ios::boolalpha);
     oss << val;
     str = oss.str();
-    return(true);
+    return true;
 }
 
 NAMESPACE_COMMON_END

@@ -30,25 +30,25 @@ bool get_config(CONFIG_INFO & config_info)
     if (!ini.load(ini_file))
     {
         printf("load %s failed\n", ini_file);
-        return(false);
+        return false;
     }
 
     if (!ini.get_value("", "server", config_info.server))
     {
         printf("get value %s failed\n", "server");
-        return(false);
+        return false;
     }
 
     if (!ini.get_value("", "test_data", config_info.test_data))
     {
         printf("get value %s failed\n", "test_data");
-        return(false);
+        return false;
     }
 
     if (!ini.get_value("", "message_handle_thread_count", config_info.thread_count))
     {
         printf("get value %s failed\n", "message_handle_thread_count");
-        return(false);
+        return false;
     }
 
     if (config_info.server)
@@ -56,13 +56,13 @@ bool get_config(CONFIG_INFO & config_info)
         if (!ini.get_value("server", "local_host_name", config_info.host_name))
         {
             printf("get value %s/%s failed\n", "server", "local_host_name");
-            return(false);
+            return false;
         }
 
         if (!ini.get_value("server", "local_host_port", config_info.host_port))
         {
             printf("get value %s/%s failed\n", "server", "local_host_port");
-            return(false);
+            return false;
         }
     }
     else
@@ -70,25 +70,25 @@ bool get_config(CONFIG_INFO & config_info)
         if (!ini.get_value("client", "remote_host_name", config_info.host_name))
         {
             printf("get value %s/%s failed\n", "client", "remote_host_name");
-            return(false);
+            return false;
         }
 
         if (!ini.get_value("client", "remote_host_port", config_info.host_port))
         {
             printf("get value %s/%s failed\n", "client", "remote_host_port");
-            return(false);
+            return false;
         }
 
         if (!ini.get_value("client", "connect_count", config_info.connect_count))
         {
             printf("get value %s/%s failed\n", "client", "connect_count");
-            return(false);
+            return false;
         }
     }
 
     ini.clear();
 
-    return(true);
+    return true;
 }
 
 void test_tcp_manager(void)

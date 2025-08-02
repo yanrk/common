@@ -46,26 +46,26 @@ void CONNECTION_INFO::recv_reset()
 
 bool CONNECTION_INFO::empty()
 {
-    return(0 == wsa_buffer.len);
+    return 0 == wsa_buffer.len;
 }
 
 bool CONNECTION_INFO::write_data(const char * data, int size)
 {
     if (0 == size)
     {
-        return(true);
+        return true;
     }
 
     if (NULL == data || size > buffer_size || 
         0 > size || !empty())
     {
-        return(false);
+        return false;
     }
 
     memcpy(wsa_buffer.buf, data, size);
     wsa_buffer.len = size;
 
-    return(true);
+    return true;
 }
 
 void CONNECTION_INFO::close_socket()
@@ -89,27 +89,27 @@ void CONNECTION_INFO::reset()
 
 bool CONNECTION_INFO::empty()
 {
-    return(0 == send_left);
+    return 0 == send_left;
 }
 
 bool CONNECTION_INFO::write_data(const char * data, int size)
 {
     if (0 == size)
     {
-        return(true);
+        return true;
     }
 
     if (NULL == data || size > buffer_size || 
         0 > size || !empty())
     {
-        return(false);
+        return false;
     }
 
     memcpy(send_buffer, data, size);
     send_len = 0;
     send_left = size;
 
-    return(true);
+    return true;
 }
 
 void CONNECTION_INFO::close_socket()

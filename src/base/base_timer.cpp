@@ -21,7 +21,7 @@ static YRK_THR_FUNC_RET_T YRK_STDCALL timer_run(void * argument)
     {
         BaseTimer::run(timer);
     }
-    return(THREAD_DEFAULT_RET);
+    return THREAD_DEFAULT_RET;
 }
 
 ITimerSink::~ITimerSink()
@@ -51,7 +51,7 @@ bool BaseTimer::init(ITimerSink * sink, size_t period)
 
     if (nullptr == sink)
     {
-        return(false);
+        return false;
     }
 
     m_sink = sink;
@@ -65,7 +65,7 @@ bool BaseTimer::init(ITimerSink * sink, size_t period)
         m_running = false;
     }
 
-    return(m_running);
+    return m_running;
 }
 
 void BaseTimer::exit()
@@ -79,7 +79,7 @@ void BaseTimer::exit()
 
 bool BaseTimer::running() const
 {
-    return(m_running);
+    return m_running;
 }
 
 void BaseTimer::run(BaseTimer * timer)

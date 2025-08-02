@@ -22,7 +22,7 @@ static unsigned int __stdcall thread_run(void * argument)
     TEST_THREAD * test = reinterpret_cast<TEST_THREAD *>(argument);
     if (nullptr == test || nullptr == test->thread)
     {
-        return(0);
+        return 0;
     }
 
     g_stdout_locker.acquire();
@@ -39,7 +39,7 @@ static unsigned int __stdcall thread_run(void * argument)
     printf("Thread[%s] end\n", test->thread->thread_name().c_str());
     g_stdout_locker.release();
 
-    return(0);
+    return 0;
 }
 #else
 static void * thread_run(void * argument)
@@ -47,7 +47,7 @@ static void * thread_run(void * argument)
     TEST_THREAD * test = reinterpret_cast<TEST_THREAD *>(argument);
     if (nullptr == test || nullptr == test->thread)
     {
-        return(nullptr);
+        return nullptr;
     }
 
     g_stdout_locker.acquire();
@@ -64,7 +64,7 @@ static void * thread_run(void * argument)
     printf("Thread[%s] end\n", test->thread->thread_name().c_str());
     g_stdout_locker.release();
 
-    return(nullptr);
+    return nullptr;
 }
 #endif // WIN32
 

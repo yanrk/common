@@ -57,14 +57,14 @@ unsigned int __stdcall work_thread_run(void * argu)
         reinterpret_cast<IOCP_WORK_THREAD_PARAM *>(argu);
     if (nullptr == thread_argu)
     {
-        return(1);
+        return 1;
     }
 
     thread_argu->tcp_connection.thread_run(thread_argu->thread_index);
 
     BASE_DELETE(thread_argu);
 
-    return(0);
+    return 0;
 }
 
 WindowsTcpConnection::WindowsTcpConnection()
@@ -100,12 +100,12 @@ bool WindowsTcpConnection::init()
     if (0 != WSAStartup(MAKEWORD(2, 2), &wsa_data))
     {
         RUN_LOG_CRI("WSAStartup failed: %d", WSAGetLastError());
-        return(false);
+        return false;
     }
 
     if (!create_completion_port())
     {
-        return(false);
+        return false;
     }
     else
     {
@@ -114,7 +114,7 @@ bool WindowsTcpConnection::init()
 
     if (!create_work_threads())
     {
-        return(false);
+        return false;
     }
     else
     {
@@ -123,7 +123,7 @@ bool WindowsTcpConnection::init()
 
     if (!create_listen_socket())
     {
-        return(false);
+        return false;
     }
     else
     {
@@ -132,14 +132,14 @@ bool WindowsTcpConnection::init()
 
     RUN_LOG_DBG("init iocp server success");
 
-    return(true);
+    return true;
 }
 
 bool WindowsTcpConnection::exit()
 {
     if (!m_running)
     {
-        return(true);
+        return true;
     }
 
     m_running = false;
@@ -148,7 +148,7 @@ bool WindowsTcpConnection::exit()
     {
         if (!post_exit())
         {
-            return(false);
+            return false;
         }
     }
 
@@ -204,7 +204,7 @@ bool WindowsTcpConnection::exit()
 
     RUN_LOG_DBG("exit iocp server success");
 
-    return(true);
+    return true;
 }
 
 void WindowsTcpConnection::thread_run(int thread_index)
@@ -275,7 +275,7 @@ void WindowsTcpConnection::thread_run(int thread_index)
 
 bool WindowsTcpConnection::running() const
 {
-    return(m_running);
+    return m_running;
 }
 
 void WindowsTcpConnection::set_local_server_port(unsigned short host_port)
@@ -298,7 +298,7 @@ bool WindowsTcpConnection::try_do_accept(CONNECTION_INFO * over_info,
                             send_over_info, recv_over_info))
     {
         RUN_LOG_ERR("acquire completiont failed");
-        return(false);
+        return false;
     }
 
     DWORD addr_len = sizeof(sockaddr_in_t) + 16;
@@ -354,7 +354,7 @@ bool WindowsTcpConnection::try_do_accept(CONNECTION_INFO * over_info,
         do_close(comp_info);
     }
 
-    return(true);
+    return true;
 }
 
 void WindowsTcpConnection::do_accept(CONNECTION_INFO * over_info, int accept_size)
@@ -436,18 +436,18 @@ bool WindowsTcpConnection::on_accept(socket_t sockfd, CONNECTION_INFO * send_ove
 {
     if (nullptr == m_manager)
     {
-        return(false);
+        return false;
     }
-    return(m_manager->when_accept(sockfd, send_over_info));
+    return m_manager->when_accept(sockfd, send_over_info);
 }
 
 bool WindowsTcpConnection::on_connect(socket_t sockfd, CONNECTION_INFO * send_over_info)
 {
     if (nullptr == m_manager)
     {
-        return(false);
+        return false;
     }
-    return(m_manager->when_connect(sockfd, send_over_info));
+    return m_manager->when_connect(sockfd, send_over_info);
 }
 
 void WindowsTcpConnection::on_send(socket_t sockfd)
@@ -480,9 +480,9 @@ bool WindowsTcpConnection::create_completion_port()
     if (nullptr == m_iocp)
     {
         RUN_LOG_CRI("create completion port failed: %d", WSAGetLastError());
-        return(false);
+        return false;
     }
-    return(true);
+    return true;
 }
 
 bool WindowsTcpConnection::bind_to_completion_port(COMPLETION_INFO * comp_info)
@@ -492,9 +492,9 @@ bool WindowsTcpConnection::bind_to_completion_port(COMPLETION_INFO * comp_info)
                        reinterpret_cast<ULONG_PTR>(comp_info), 0))
     {
         RUN_LOG_CRI("bind to completion port failed: %d", WSAGetLastError());
-        return(false);
+        return false;
     }
-    return(true);
+    return true;
 }
 
 bool WindowsTcpConnection::create_work_threads()
@@ -508,7 +508,7 @@ bool WindowsTcpConnection::create_work_threads()
     if (nullptr == m_thread)
     {
         RUN_LOG_CRI("create thread handle failed");
-        return(false);
+        return false;
     }
 
     for (m_thread_count = 0; m_thread_count < thread_count; ++m_thread_count)
@@ -518,7 +518,7 @@ bool WindowsTcpConnection::create_work_threads()
         if (nullptr == thread_argu)
         {
             RUN_LOG_CRI("create work thread param failed");
-            return(false);
+            return false;
         }
 
         m_thread[m_thread_count] = reinterpret_cast<HANDLE>(
@@ -527,11 +527,11 @@ bool WindowsTcpConnection::create_work_threads()
         {
             BASE_DELETE(thread_argu);
             RUN_LOG_CRI("_beginthreadex failed: %d", GetLastError());
-            return(false);
+            return false;
         }
     }
 
-    return(true);
+    return true;
 }
 
 bool WindowsTcpConnection::get_extern_wsa_functions()
@@ -550,7 +550,7 @@ bool WindowsTcpConnection::get_extern_wsa_functions()
                  nullptr))
     {
         RUN_LOG_CRI("get AcceptEx failed: %d", WSAGetLastError());
-        return(false);
+        return false;
     }
 
     bytes = 0;
@@ -567,10 +567,10 @@ bool WindowsTcpConnection::get_extern_wsa_functions()
                  nullptr))
     {
         RUN_LOG_CRI("get GetAcceptExSockaddrs failed: %d", WSAGetLastError());
-        return(false);
+        return false;
     }
 
-    return(true);
+    return true;
 }
 
 bool WindowsTcpConnection::create_listen_socket()
@@ -579,7 +579,7 @@ bool WindowsTcpConnection::create_listen_socket()
     if (nullptr == m_listen_comp_info)
     {
         RUN_LOG_ERR("acquire listen comp_info failed: %d", GetLastError());
-        return(false);
+        return false;
     }
 
     m_listen_comp_info->sockfd = 
@@ -587,12 +587,12 @@ bool WindowsTcpConnection::create_listen_socket()
     if (INVALID_SOCKET == m_listen_comp_info->sockfd)
     {
         RUN_LOG_ERR("WSASocket listen failed: %d", WSAGetLastError());
-        return(false);
+        return false;
     }
 
     if (!bind_to_completion_port(m_listen_comp_info))
     {
-        return(false);
+        return false;
     }
 
     sockaddr_in_t server_addr;
@@ -606,18 +606,18 @@ bool WindowsTcpConnection::create_listen_socket()
                   sizeof(server_addr)))
     {
         RUN_LOG_ERR("bind failed: %d", WSAGetLastError());
-        return(false);
+        return false;
     }
 
     if (0 != listen(m_listen_comp_info->sockfd, SOMAXCONN))
     {
         RUN_LOG_ERR("listen failed: %d", WSAGetLastError());
-        return(false);
+        return false;
     }
 
     if (!get_extern_wsa_functions())
     {
-        return(false);
+        return false;
     }
 
     for (int index = 0; index < m_thread_count; ++index)
@@ -626,7 +626,7 @@ bool WindowsTcpConnection::create_listen_socket()
         if (nullptr == over_info)
         {
             RUN_LOG_ERR("acquire over_info failed: %d", GetLastError());
-            return(false);
+            return false;
         }
 
         m_listen_comp_info->overlapped_info_list.push_back(over_info);
@@ -634,11 +634,11 @@ bool WindowsTcpConnection::create_listen_socket()
         if (!post_accept(over_info))
         {
             RUN_LOG_ERR("post accept failed: %d", GetLastError());
-            return(false);
+            return false;
         }
     }
 
-    return(true);
+    return true;
 }
 
 void WindowsTcpConnection::handle_error(COMPLETION_INFO * comp_info, 
@@ -677,7 +677,7 @@ bool WindowsTcpConnection::post_accept(CONNECTION_INFO * over_info)
     if (INVALID_SOCKET == over_info->sockfd)
     {
         RUN_LOG_ERR("WSASocket failed: %d", WSAGetLastError());
-        return(false);
+        return false;
     }
 
     DWORD addr_len = sizeof(sockaddr_in_t) + 16;
@@ -689,7 +689,7 @@ bool WindowsTcpConnection::post_accept(CONNECTION_INFO * over_info)
         if (WSA_IO_PENDING != WSAGetLastError())
         {
             RUN_LOG_ERR("AcceptEx failed: %d", WSAGetLastError());
-            return(false);
+            return false;
         }
     }
 
@@ -698,7 +698,7 @@ bool WindowsTcpConnection::post_accept(CONNECTION_INFO * over_info)
         RUN_LOG_ERR("AcceptEx error: %d", recv_size);
     }
 
-    return(true);
+    return true;
 }
 
 bool WindowsTcpConnection::post_send(CONNECTION_INFO * over_info)
@@ -713,7 +713,7 @@ bool WindowsTcpConnection::post_send(CONNECTION_INFO * over_info)
         if (WSA_IO_PENDING != WSAGetLastError())
         {
             RUN_LOG_ERR("WSASend failed: %d", WSAGetLastError());
-            return(false);
+            return false;
         }
     }
 
@@ -724,12 +724,12 @@ bool WindowsTcpConnection::post_send(CONNECTION_INFO * over_info)
     }
     */
 
-    return(true);
+    return true;
 }
 
 bool WindowsTcpConnection::stop_send(CONNECTION_INFO * over_info)
 {
-    return(true);
+    return true;
 }
 
 bool WindowsTcpConnection::post_recv(CONNECTION_INFO * over_info)
@@ -744,7 +744,7 @@ bool WindowsTcpConnection::post_recv(CONNECTION_INFO * over_info)
         if (WSA_IO_PENDING != WSAGetLastError())
         {
             RUN_LOG_ERR("WSARecv failed: %d", WSAGetLastError());
-            return(false);
+            return false;
         }
     }
 
@@ -755,7 +755,7 @@ bool WindowsTcpConnection::post_recv(CONNECTION_INFO * over_info)
     }
     */
 
-    return(true);
+    return true;
 }
 
 bool WindowsTcpConnection::post_exit()
@@ -764,10 +764,10 @@ bool WindowsTcpConnection::post_exit()
             static_cast<ULONG_PTR>(POST_EXIT), nullptr))
     {
         RUN_LOG_CRI("PostQueuedCompletionStatus failed: %d", WSAGetLastError());
-        return(false);
+        return false;
     }
 
-    return(true);
+    return true;
 }
 
 bool WindowsTcpConnection::acquire_completion(socket_t sockfd, 
@@ -783,7 +783,7 @@ bool WindowsTcpConnection::acquire_completion(socket_t sockfd,
     if (nullptr == send_over_info)
     {
         RUN_LOG_ERR("acquire over_info failed: %d", GetLastError());
-        return(false);
+        return false;
     }
     send_over_info->send_reset();
 
@@ -792,7 +792,7 @@ bool WindowsTcpConnection::acquire_completion(socket_t sockfd,
     {
         m_over_info_pool.release(send_over_info);
         RUN_LOG_ERR("acquire over_info failed: %d", GetLastError());
-        return(false);
+        return false;
     }
     recv_over_info->recv_reset();
 
@@ -802,7 +802,7 @@ bool WindowsTcpConnection::acquire_completion(socket_t sockfd,
         m_over_info_pool.release(send_over_info);
         m_over_info_pool.release(recv_over_info);
         RUN_LOG_ERR("acquire comp_info failed: %d", GetLastError());
-        return(false);
+        return false;
     }
 
     send_over_info->sockfd = sockfd;
@@ -811,7 +811,7 @@ bool WindowsTcpConnection::acquire_completion(socket_t sockfd,
     comp_info->overlapped_info_list.push_back(send_over_info);
     comp_info->overlapped_info_list.push_back(recv_over_info);
 
-    return(true);
+    return true;
 }
 
 bool WindowsTcpConnection::register_connection(COMPLETION_INFO * comp_info)
@@ -819,7 +819,7 @@ bool WindowsTcpConnection::register_connection(COMPLETION_INFO * comp_info)
     if (!bind_to_completion_port(comp_info))
     {
         RUN_LOG_CRI("bind to completion port failed: %d", WSAGetLastError());
-        return(false);
+        return false;
     }
 
     BaseGuard<ThreadLocker> map_insert_guard(m_comp_info_locker);
@@ -827,11 +827,11 @@ bool WindowsTcpConnection::register_connection(COMPLETION_INFO * comp_info)
                                                comp_info)).second)
     {
         RUN_LOG_CRI("insert comp_info to map failed: %d", GetLastError());
-        return(false);
+        return false;
     }
     map_insert_guard.release();
 
-    return(true);
+    return true;
 }
 
 bool WindowsTcpConnection::unregister_connection(socket_t sockfd)
@@ -843,14 +843,14 @@ bool WindowsTcpConnection::unregister_connection(socket_t sockfd)
     if (m_comp_info_map.end() == iter)
     {
         RUN_LOG_DBG("search socket %d from map failed", sockfd);
-        return(false);
+        return false;
     }
     comp_info = iter->second;
     map_search_guard.release();
 
     do_close(comp_info);
 
-    return(true);
+    return true;
 }
 
 bool WindowsTcpConnection::create_connection(sockaddr_in_t & server_address)
@@ -858,7 +858,7 @@ bool WindowsTcpConnection::create_connection(sockaddr_in_t & server_address)
     socket_t sockfd = create_sockfd(server_address);
     if (BAD_SOCKET == sockfd)
     {
-        return(false);
+        return false;
     }
 
     CONNECTION_INFO * send_over_info = nullptr;
@@ -869,7 +869,7 @@ bool WindowsTcpConnection::create_connection(sockaddr_in_t & server_address)
     {
         RUN_LOG_ERR("acquire connection failed");
         closesocket(sockfd);
-        return(false);
+        return false;
     }
 
     comp_info->server = false;
@@ -898,12 +898,12 @@ bool WindowsTcpConnection::create_connection(sockaddr_in_t & server_address)
             break;
         }
 
-        return(true);
+        return true;
     } while (false);
 
     do_close(comp_info);
 
-    return(false);
+    return false;
 }
 
 bool WindowsTcpConnection::create_connection(const char * host_name, 
@@ -912,14 +912,14 @@ bool WindowsTcpConnection::create_connection(const char * host_name,
     sockaddr_in_t server_address;
     if (!transform_address(host_name, host_port, server_address))
     {
-        return(false);
+        return false;
     }
-    return(create_connection(server_address));
+    return create_connection(server_address);
 }
 
 bool WindowsTcpConnection::destroy_connection(socket_t sockfd)
 {
-    return(unregister_connection(sockfd));
+    return unregister_connection(sockfd);
 }
 
 bool WindowsTcpConnection::transform_address(const char * host_name, 
@@ -928,7 +928,7 @@ bool WindowsTcpConnection::transform_address(const char * host_name,
 {
     if (nullptr == host_name || 0 == host_port)
     {
-        return(false);
+        return false;
     }
 
     memset(&server_address, 0, sizeof(server_address));
@@ -936,7 +936,7 @@ bool WindowsTcpConnection::transform_address(const char * host_name,
     server_address.sin_port = htons(host_port);
     server_address.sin_addr.s_addr = inet_addr(host_name);
 
-    return(true);
+    return true;
 }
 
 socket_t WindowsTcpConnection::create_sockfd(sockaddr_in_t & server_address)
@@ -945,7 +945,7 @@ socket_t WindowsTcpConnection::create_sockfd(sockaddr_in_t & server_address)
     if (BAD_SOCKET == sockfd)
     {
         RUN_LOG_ERR("socket failed: %d", WSAGetLastError());
-        return(BAD_SOCKET);
+        return BAD_SOCKET;
     }
 
     if (0 > connect(sockfd, 
@@ -954,7 +954,7 @@ socket_t WindowsTcpConnection::create_sockfd(sockaddr_in_t & server_address)
     {
         RUN_LOG_ERR("connect failed: %d", WSAGetLastError());
         closesocket(sockfd);
-        return(BAD_SOCKET);
+        return BAD_SOCKET;
     }
 
     u_long mode = 1;
@@ -963,7 +963,7 @@ socket_t WindowsTcpConnection::create_sockfd(sockaddr_in_t & server_address)
         RUN_LOG_ERR("ioctlsocket(FIONBIO) failed: %d", WSAGetLastError());
     }
 
-    return(sockfd);
+    return sockfd;
 }
 
 NAMESPACE_COMMON_END

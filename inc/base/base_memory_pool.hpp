@@ -84,7 +84,7 @@ static int get_1_of_binary(int value)
         value &= (value - 1);
         ++count;
     }
-    return(count);
+    return count;
 }
 
 static int get_memory_index(int adjusted_size, int memory_block_min_size)
@@ -100,7 +100,7 @@ static int get_memory_index(int adjusted_size, int memory_block_min_size)
         ++index;
     }
 
-    return(index);
+    return index;
 }
 
 template <typename LockerType>
@@ -176,7 +176,7 @@ MEMORY_NODE * MemoryPool<LockerType>::acquire(int size)
         {
             MEMORY_NODE * memory_node = memory_node_list.front();
             memory_node_list.pop_front();
-            return(memory_node);
+            return memory_node;
         }
         memory_guard.release();
     }
@@ -189,7 +189,7 @@ MEMORY_NODE * MemoryPool<LockerType>::acquire(int size)
         new (buffer) MEMORY_NODE(index, adjust_size);
         memory_node = reinterpret_cast<MEMORY_NODE *>(buffer);
     }
-    return(memory_node);
+    return memory_node;
 }
 
 template <typename LockerType>

@@ -44,9 +44,9 @@ public:
     {
         if (nullptr == m_tcp_manager)
         {
-            return(false);
+            return false;
         }
-        return(m_tcp_manager->send_message(connection, data, size));
+        return m_tcp_manager->send_message(connection, data, size);
     }
 
 public:

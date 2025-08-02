@@ -27,7 +27,7 @@ struct CompTimerWithID
 
     bool operator () (ITimer * timer) const
     {
-        return(m_id == timer->m_id);
+        return m_id == timer->m_id;
     }
 
     size_t m_id;
@@ -43,7 +43,7 @@ struct CompTimerWithStartTime
 
     bool operator () (ITimer * timer) const
     {
-        return(m_start_time < timer->m_start_time);
+        return m_start_time < timer->m_start_time;
     }
 
     uint64_t   m_start_time;
@@ -55,7 +55,7 @@ static uint64_t diff_millisecond(struct timeval stime)
     struct timeval etime = base_gettimeofday();
     diff += (etime.tv_sec - stime.tv_sec) * 1000;
     diff += (etime.tv_usec - stime.tv_usec) / 1000;
-    return(diff);
+    return diff;
 }
 
 static YRK_THR_FUNC_RET_T YRK_STDCALL timer_manager_run(void * argument)
@@ -66,7 +66,7 @@ static YRK_THR_FUNC_RET_T YRK_STDCALL timer_manager_run(void * argument)
     {
         timer_manager->thread_run();
     }
-    return(THREAD_DEFAULT_RET);
+    return THREAD_DEFAULT_RET;
 }
 
 TimerManager::TimerManager()
@@ -92,12 +92,12 @@ bool TimerManager::init()
 {
     if (m_running)
     {
-        return(true);
+        return true;
     }
 
     m_running = true;
 
-    return(m_thread.acquire());
+    return m_thread.acquire();
 }
 
 void TimerManager::exit()
@@ -136,7 +136,7 @@ bool TimerManager::start_timer(size_t id, bool once, size_t period)
 {
     if (!m_running)
     {
-        return(false);
+        return false;
     }
 
     ITimer * timer = nullptr;
@@ -146,7 +146,7 @@ bool TimerManager::start_timer(size_t id, bool once, size_t period)
                      CompTimerWithID(id));
     if (m_pending_timer.end() == iter)
     {
-        return(false);
+        return false;
     }
     timer = *iter;
     m_pending_timer.erase(iter);
@@ -158,14 +158,14 @@ bool TimerManager::start_timer(size_t id, bool once, size_t period)
 
     add_running_timer(timer);
 
-    return(true);
+    return true;
 }
 
 bool TimerManager::stop_timer(size_t id)
 {
     if (!m_running)
     {
-        return(false);
+        return false;
     }
 
     ITimer * timer = nullptr;
@@ -175,7 +175,7 @@ bool TimerManager::stop_timer(size_t id)
                      CompTimerWithID(id));
     if (m_running_timer.end() == iter)
     {
-        return(false);
+        return false;
     }
     timer = *iter;
     m_running_timer.erase(iter);
@@ -183,7 +183,7 @@ bool TimerManager::stop_timer(size_t id)
 
     add_pending_timer(timer);
 
-    return(true);
+    return true;
 }
 
 void TimerManager::destroy_timer(size_t id)
@@ -202,7 +202,7 @@ void TimerManager::destroy_timer(size_t id)
 
 bool TimerManager::running() const
 {
-    return(m_running);
+    return m_running;
 }
 
 void TimerManager::thread_run()
@@ -260,7 +260,7 @@ size_t TimerManager::acquire_timer_id()
     }
     id_guard.release();
 
-    return(id);
+    return id;
 }
 
 void TimerManager::add_pending_timer(ITimer * timer)
@@ -285,7 +285,7 @@ ITimer * TimerManager::del_pending_timer(size_t id)
     }
     pending_guard.release();
 
-    return(timer);
+    return timer;
 }
 
 void TimerManager::add_running_timer(ITimer * timer)
@@ -318,7 +318,7 @@ ITimer * TimerManager::del_running_timer(size_t id)
     }
     running_guard.release();
 
-    return(timer);
+    return timer;
 }
 
 NAMESPACE_COMMON_END

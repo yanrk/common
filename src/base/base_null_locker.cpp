@@ -35,7 +35,7 @@ void NullLocker::release()
 
 bool NullLocker::try_acquire()
 {
-    return(true);
+    return true;
 }
 
 NAMESPACE_COMMON_END

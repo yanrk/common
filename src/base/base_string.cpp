@@ -19,7 +19,7 @@ size_t base_vsnprintf(char * buffer, size_t bufsiz, const char * fmt, va_list ar
 {
     if (nullptr == buffer || 0 == bufsiz || nullptr == fmt || nullptr == args)
     {
-        return(0);
+        return 0;
     }
 
 #ifdef WIN32
@@ -34,14 +34,14 @@ size_t base_vsnprintf(char * buffer, size_t bufsiz, const char * fmt, va_list ar
         buffer[ret_siz] = '\0';
     }
 
-    return(ret_siz);
+    return ret_siz;
 }
 
 size_t base_snprintf(char * buffer, size_t bufsiz, const char * fmt, ...)
 {
     if (nullptr == fmt)
     {
-        return(0);
+        return 0;
     }
 
     va_list args = nullptr;
@@ -52,7 +52,7 @@ size_t base_snprintf(char * buffer, size_t bufsiz, const char * fmt, ...)
 
     va_end(args);
 
-    return(ret_siz);
+    return ret_siz;
 }
 
 void base_trim_head(std::string & str, char trim)
@@ -98,18 +98,18 @@ void base_trim(std::string & str, char trim)
 int base_strcmp_ignore_case(const char * str1, const char * str2)
 {
 #ifdef WIN32
-    return(stricmp(str1, str2));
+    return stricmp(str1, str2);
 #else
-    return(strcasecmp(str1, str2));
+    return strcasecmp(str1, str2);
 #endif // WIN32
 }
 
 int base_strncmp_ignore_case(const char * str1, const char * str2, int count)
 {
 #ifdef WIN32
-    return(strnicmp(str1, str2, count));
+    return strnicmp(str1, str2, count);
 #else
-    return(strncasecmp(str1, str2, count));
+    return strncasecmp(str1, str2, count);
 #endif // WIN32
 }
 
@@ -118,21 +118,21 @@ bool base_string2##type(const char * str, type & val)          \
 {                                                              \
     if (nullptr == str)                                        \
     {                                                          \
-        return(false);                                         \
+        return false;                                         \
     }                                                          \
-    return(sscanf(str, fmt, &val) > 0);                        \
+    return sscanf(str, fmt, &val) > 0;                        \
 }
 
 #define STRING_2_TYPE(type, fmt)                               \
 bool base_string2##type(const std::string & str, type & val)   \
 {                                                              \
-    return(sscanf(str.c_str(), fmt, &val) > 0);                \
+    return sscanf(str.c_str(), fmt, &val) > 0;                \
 }
 
 #define TYPE_2_CSTRING(type, fmt)                              \
 bool base_##type##2string(type val, char * str, int size)      \
 {                                                              \
-    return(base_snprintf(str, size, fmt, val) > 0);            \
+    return base_snprintf(str, size, fmt, val) > 0;            \
 }
 
 #define TYPE_2_STRING(type, fmt) \
@@ -142,7 +142,7 @@ bool base_##type##2string(type val, std::string & str)         \
     char buffer[bufsiz];                                       \
     base_##type##2string(val, buffer, bufsiz);                 \
     str = buffer;                                              \
-    return(true);                                              \
+    return true;                                              \
 }
 
 CSTRING_2_TYPE(  char,  "%c")

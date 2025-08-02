@@ -5,5 +5,5 @@
 int main(int argc, char * argv[])
 {
     test_tcp_manager();
-    return(0);
+    return 0;
 }

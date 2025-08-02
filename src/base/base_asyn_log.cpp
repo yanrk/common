@@ -22,7 +22,7 @@ static YRK_THR_FUNC_RET_T YRK_STDCALL write_file_run(void * argument = nullptr)
 {
     argument = nullptr; /* prevent warning */
     YRK_CMN::AsynLog::write_file();
-    return(THREAD_DEFAULT_RET);
+    return THREAD_DEFAULT_RET;
 }
 
 BaseThread AsynLog::s_write_file_thread;
@@ -99,7 +99,7 @@ bool AsynLog::acquire_write_thread()
 {
     s_write_file_thread.set_thread_args(
         write_file_run, &s_asyn_log_obj_list, "write file thread of asyn log");
-    return(s_write_file_thread.acquire());
+    return s_write_file_thread.acquire();
 }
 
 void AsynLog::release_write_thread()

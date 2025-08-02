@@ -53,7 +53,7 @@ BaseException::BaseException(const char * file, int line,
 
 const std::string & BaseException::message() const
 {
-    return(m_message);
+    return m_message;
 }
 
 NAMESPACE_COMMON_END

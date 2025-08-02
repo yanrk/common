@@ -48,7 +48,7 @@ bool WindowsThread::acquire()
     BaseGuard<ThreadLocker> thread_guard(m_locker);
     if (m_running || nullptr == m_func)
     {
-        return(false);
+        return false;
     }
     m_running = true;
     thread_guard.release();
@@ -58,11 +58,11 @@ bool WindowsThread::acquire()
     if (nullptr == m_thread)
     {
         m_running = false;
-        return(false);
+        return false;
     }
     else
     {
-        return(true);
+        return true;
     }
 }
 
@@ -106,19 +106,19 @@ void WindowsThread::set_thread_args
 
 bool WindowsThread::running() const
 {
-    return(m_running);
+    return m_running;
 }
 
 size_t WindowsThread::thread_id() const
 {
-    return(static_cast<size_t>(GetCurrentThreadId()));
+    return static_cast<size_t>(GetCurrentThreadId());
 }
 
 std::string WindowsThread::thread_name()
 {
     BaseGuard<ThreadLocker> thread_guard(m_locker);
 
-    return(m_name);
+    return m_name;
 }
 
 NAMESPACE_COMMON_END

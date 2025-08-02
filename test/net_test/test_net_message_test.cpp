@@ -29,7 +29,7 @@ void MessageTest::set_send_data(bool send_data)
 bool MessageTest::on_accept(connection_t connection)
 {
     add_connection(connection);
-    return(true);
+    return true;
 }
 
 bool MessageTest::on_connect(connection_t connection)
@@ -39,7 +39,7 @@ bool MessageTest::on_connect(connection_t connection)
     {
         test_send_message(connection);
     }
-    return(true);
+    return true;
 }
 
 void MessageTest::on_close(connection_t connection)
@@ -52,7 +52,7 @@ bool MessageTest::test_send_message(connection_t connection)
     MEMORY_NODE * memory_node = acquire_send_message(connection);
     if (nullptr == memory_node)
     {
-        return(false);
+        return false;
     }
 
     DBG_LOG("connection %d send %06d bytes", connection, memory_node->size);
@@ -62,14 +62,14 @@ bool MessageTest::test_send_message(connection_t connection)
 
     release_send_message(memory_node);
 
-    return(true);
+    return true;
 }
 
 bool MessageTest::handle_message(connection_t connection, const char * data, int size)
 {
     if (!MessageTest::check_recv_message(connection, data, size))
     {
-        return(false);
+        return false;
     }
 
     DBG_LOG("connection %d recv %06d bytes", connection, size);
@@ -77,7 +77,7 @@ bool MessageTest::handle_message(connection_t connection, const char * data, int
 
     test_send_message(connection);
 
-    return(true);
+    return true;
 }
 
 void MessageTest::add_connection(connection_t connection)
@@ -106,7 +106,7 @@ MEMORY_NODE * MessageTest::acquire_send_message(connection_t connection)
     if (nullptr == memory_node)
     {
         RUN_LOG_ERR("memory pool acquire %d failed on connection %d", memory_len, connection);
-        return(nullptr);
+        return nullptr;
     }
 
     for (int index = 0; index < block_count; ++index)
@@ -121,7 +121,7 @@ MEMORY_NODE * MessageTest::acquire_send_message(connection_t connection)
     m_connections[connection] = block_count;
     guard.release();
 
-    return(memory_node);
+    return memory_node;
 }
 
 void MessageTest::release_send_message(MEMORY_NODE *& memory_node)
@@ -140,7 +140,7 @@ bool MessageTest::check_recv_message(connection_t connection, const char * data,
     if (size != guess_recv_len)
     {
         RUN_LOG_ERR("connection %d msg length error: need_len %d, recv_len %d", connection, guess_recv_len, size);
-        return(false);
+        return false;
     }
 
     for (int index = 0; index < block_count; ++index)
@@ -161,5 +161,5 @@ bool MessageTest::check_recv_message(connection_t connection, const char * data,
     m_connections[connection] = block_count;
     guard.release();
 
-    return(true);
+    return true;
 }

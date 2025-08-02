@@ -16,7 +16,7 @@ NAMESPACE_COMMON_BEGIN
 
 int64_t base_get_time()
 {
-    return(static_cast<int64_t>(time(NULL)));
+    return static_cast<int64_t>(time(NULL));
 }
 
 tm base_get_localtime()
@@ -30,7 +30,7 @@ tm base_get_localtime()
     localtime_r(&time_now, &tm_now);
 #endif // WIN32
 
-    return(tm_now);
+    return tm_now;
 }
 
 tm base_get_gmtime()
@@ -44,7 +44,7 @@ tm base_get_gmtime()
     gmtime_r(&time_now, &tm_now);
 #endif // WIN32
 
-    return(tm_now);
+    return tm_now;
 }
 
 struct timeval base_gettimeofday()
@@ -60,7 +60,7 @@ struct timeval base_gettimeofday()
     gettimeofday(&tv_now, nullptr);
 #endif // WIN32
 
-    return(tv_now);
+    return tv_now;
 }
 
 int base_get_timezone()
@@ -81,13 +81,13 @@ int base_get_timezone()
         first_time = false;
     }
 
-    return(time_diff);
+    return time_diff;
 }
 
 int base_get_day_of_week()
 {
     tm tm_now = base_get_localtime();
-    return(tm_now.tm_wday);
+    return tm_now.tm_wday;
 }
 
 void base_millisecond_sleep(size_t milliseconds)

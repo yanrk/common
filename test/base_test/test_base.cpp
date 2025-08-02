@@ -22,5 +22,5 @@ int main(int argc, char * argv[])
     test_base_timer_manager();
     test_base_timer();
     test_base_handle_manager();
-    return(0);
+    return 0;
 }

@@ -114,7 +114,7 @@ void LinuxMutexLocker<b_thread_lock>::release()
 template <bool b_thread_lock>
 bool LinuxMutexLocker<b_thread_lock>::try_acquire()
 {
-    return(0 == pthread_mutex_trylock(&m_locker));
+    return 0 == pthread_mutex_trylock(&m_locker);
 }
 
 NAMESPACE_COMMON_END

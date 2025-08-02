@@ -47,10 +47,10 @@ bool TcpManager::set_local_port(unsigned short host_port)
 {
     if (m_start)
     {
-        return(false);
+        return false;
     }
     m_tcp_connection.set_local_server_port(host_port);
-    return(true);
+    return true;
 }
 
 bool TcpManager::set_remote_address(const char * host_name, 
@@ -58,46 +58,46 @@ bool TcpManager::set_remote_address(const char * host_name,
 {
     if (m_start)
     {
-        return(false);
+        return false;
     }
-    return(m_tcp_connection.transform_address(
-               host_name, host_port, m_remote_server_address));
+    return m_tcp_connection.transform_address(
+               host_name, host_port, m_remote_server_address);
 }
 
 bool TcpManager::set_data_handle_thread_count(int thread_count)
 {
     if (m_start)
     {
-        return(false);
+        return false;
     }
-    return(set_thread_count(thread_count));
+    return set_thread_count(thread_count);
 }
 
 bool TcpManager::set_message_handler(IMessageHandler * message_handler)
 {
     if (m_start || nullptr == message_handler)
     {
-        return(false);
+        return false;
     }
     m_message_handler = message_handler;
     m_message_handler->set_tcp_manager(this);
-    return(true);
+    return true;
 }
 
 bool TcpManager::create_connection()
 {
-    return(m_tcp_connection.create_connection(m_remote_server_address));
+    return m_tcp_connection.create_connection(m_remote_server_address);
 }
 
 bool TcpManager::create_connection(const char * host_name, 
                                    unsigned short host_port)
 {
-    return(m_tcp_connection.create_connection(host_name, host_port));
+    return m_tcp_connection.create_connection(host_name, host_port);
 }
 
 bool TcpManager::create_connection(sockaddr_in_t & server_address)
 {
-    return(m_tcp_connection.create_connection(server_address));
+    return m_tcp_connection.create_connection(server_address);
 }
 
 bool TcpManager::destroy_connection(connection_t connection)
@@ -105,9 +105,9 @@ bool TcpManager::destroy_connection(connection_t connection)
     socket_t sockfd = BAD_SOCKET;
     if (!transform_connection(connection, sockfd))
     {
-        return(false);
+        return false;
     }
-    return(m_tcp_connection.destroy_connection(sockfd));
+    return m_tcp_connection.destroy_connection(sockfd);
 }
 
 bool TcpManager::start()
@@ -128,12 +128,12 @@ bool TcpManager::start()
             break;
         }
 
-        return(true);
+        return true;
     } while (false);
 
     stop();
 
-    return(false);
+    return false;
 }
 
 void TcpManager::stop()
@@ -176,12 +176,12 @@ void TcpManager::stop()
 
 bool TcpManager::when_accept(socket_t sockfd, CONNECTION_INFO * send_buffer)
 {
-    return(connect_notice(sockfd, send_buffer, true));
+    return connect_notice(sockfd, send_buffer, true);
 }
 
 bool TcpManager::when_connect(socket_t sockfd, CONNECTION_INFO * send_buffer)
 {
-    return(connect_notice(sockfd, send_buffer, false));
+    return connect_notice(sockfd, send_buffer, false);
 }
 
 void TcpManager::when_send(socket_t sockfd)
@@ -210,42 +210,42 @@ bool TcpManager::send_message(connection_t connection, const char * data, int si
 {
     if (nullptr == m_message_handler)
     {
-        return(false);
+        return false;
     }
 
     socket_t sockfd = BAD_SOCKET;
     if (!transform_connection(connection, sockfd))
     {
-        return(false);
+        return false;
     }
 
-    return(NetDataHandler::send_data(sockfd, data, size));
+    return NetDataHandler::send_data(sockfd, data, size);
 }
 
 bool TcpManager::handle_data(socket_t sockfd, const char * data, int size)
 {
     if (nullptr == m_message_handler)
     {
-        return(false);
+        return false;
     }
 
     connection_t connection = BAD_CONNECTION;
     if (!transform_socket(sockfd, connection))
     {
-        return(false);
+        return false;
     }
 
-    return(m_message_handler->handle_message(connection, data, size));
+    return m_message_handler->handle_message(connection, data, size);
 }
 
 bool TcpManager::continue_send(CONNECTION_INFO * send_buffer)
 {
-    return(m_tcp_connection.post_send(send_buffer));
+    return m_tcp_connection.post_send(send_buffer);
 }
 
 bool TcpManager::suspend_send(CONNECTION_INFO * send_buffer)
 {
-    return(m_tcp_connection.stop_send(send_buffer));
+    return m_tcp_connection.stop_send(send_buffer);
 }
 
 connection_t TcpManager::acquire_first_connection()
@@ -257,7 +257,7 @@ connection_t TcpManager::acquire_first_connection()
     connection += rand() % 1000;
     connection *= 1000;
     connection += rand() % 1000;
-    return(connection);
+    return connection;
 }
 
 connection_t TcpManager::acquire_next_connection()
@@ -267,7 +267,7 @@ connection_t TcpManager::acquire_next_connection()
     BaseGuard<ThreadLocker> deque_guard(m_deque_locker);
     if (m_using_connection.max_size() == m_using_connection.size())
     {
-        return(connection);
+        return connection;
     }
 
     while (true)
@@ -288,7 +288,7 @@ connection_t TcpManager::acquire_next_connection()
 
     deque_guard.release();
 
-    return(connection);
+    return connection;
 }
 
 bool TcpManager::transform_socket(socket_t sockfd, connection_t & connection)
@@ -299,10 +299,10 @@ bool TcpManager::transform_socket(socket_t sockfd, connection_t & connection)
     if (m_sock2connection.end() != iter)
     {
         connection = iter->second;
-        return(true);
+        return true;
     }
     map_guard.release();
-    return(false);
+    return false;
 }
 
 bool TcpManager::transform_connection(connection_t connection, socket_t & sockfd)
@@ -313,10 +313,10 @@ bool TcpManager::transform_connection(connection_t connection, socket_t & sockfd
     if (m_connection2sock.end() != iter)
     {
         sockfd = iter->second;
-        return(true);
+        return true;
     }
     map_guard.release();
-    return(false);
+    return false;
 }
 
 void TcpManager::add_connection(socket_t sockfd, connection_t connection)
@@ -375,13 +375,13 @@ bool TcpManager::connect_notice(socket_t sockfd,
 {
     if (nullptr == m_message_handler)
     {
-        return(false);
+        return false;
     }
 
     connection_t connection = acquire_next_connection();
     if (BAD_CONNECTION == connection)
     {
-        return(false);
+        return false;
     }
 
     NetDataHandler::handle_connect(sockfd, send_buffer);
@@ -403,7 +403,7 @@ bool TcpManager::connect_notice(socket_t sockfd,
         del_socket(sockfd);
     }
 
-    return(ret);
+    return ret;
 }
 
 NAMESPACE_COMMON_END

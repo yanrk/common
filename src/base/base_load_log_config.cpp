@@ -34,10 +34,10 @@ static bool transform_log_write_mode(const std::string & key_value,
     }
     else
     {
-        return(false);
+        return false;
     }
 
-    return(true);
+    return true;
 }
 
 static bool transform_log_level(const std::string & key_value, 
@@ -65,10 +65,10 @@ static bool transform_log_level(const std::string & key_value,
     }
     else
     {
-        return(false);
+        return false;
     }
 
-    return(true);
+    return true;
 }
 
 bool base_load_log_config(const std::string & file, 
@@ -77,12 +77,12 @@ bool base_load_log_config(const std::string & file,
     BaseIni log_ini;
     if (!log_ini.load(file))
     {
-        return(false);
+        return false;
     }
 
     if (!log_ini.get_value("", "log_path", log_config.log_file_path))
     {
-        return(false);
+        return false;
     }
 
     for (int type = LOG_TYPE_MIN; type < LOG_TYPE_MAX; ++type)
@@ -92,40 +92,40 @@ bool base_load_log_config(const std::string & file,
 
         if (!log_ini.get_value(app_name, "write_mode", key_value))
         {
-            return(false);
+            return false;
         }
 
         if (!transform_log_write_mode(key_value, 
                                       log_config.log_file[type].write_mode))
         {
-            return(false);
+            return false;
         }
 
         if (!log_ini.get_value(app_name, "min_level", key_value))
         {
-            return(false);
+            return false;
         }
 
         if (!transform_log_level(key_value, 
                                  log_config.log_file[type].log_min_level))
         {
-            return(false);
+            return false;
         }
 
         if (!log_ini.get_value(app_name, "file_size", 
                                log_config.log_file[type].log_file_size))
         {
-            return(false);
+            return false;
         }
 
         if (!log_ini.get_value(app_name, "buffer_count", 
                                log_config.log_file[type].buffer_count))
         {
-            return(false);
+            return false;
         }
     }
 
-    return(true);
+    return true;
 }
 
 NAMESPACE_COMMON_END

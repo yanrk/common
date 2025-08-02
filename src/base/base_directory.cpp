@@ -17,7 +17,7 @@ bool base_opendir(const char * dirname, BASE_DIR & base_dir)
 {
     if (nullptr == dirname || '\0' == dirname[0])
     {
-        return(false);
+        return false;
     }
 
     base_dir.dir_name = dirname;
@@ -32,27 +32,27 @@ bool base_opendir(const char * dirname, BASE_DIR & base_dir)
         FindFirstFileA(base_dir.file_name.c_str(), &base_dir.file);
     if (INVALID_HANDLE_VALUE == base_dir.dir)
     {
-        return(false);
+        return false;
     }
     base_dir.eof = false;
 #else
     base_dir.dir = opendir(dirname);
     if (nullptr == base_dir.dir)
     {
-        return(false);
+        return false;
     }
     base_dir.file = readdir(base_dir.dir);
 #endif // WIN32
 
-    return(true);
+    return true;
 }
 
 bool base_is_opendir(const BASE_DIR & base_dir)
 {
 #ifdef WIN32
-    return(INVALID_HANDLE_VALUE != base_dir.dir);
+    return INVALID_HANDLE_VALUE != base_dir.dir;
 #else
-    return(nullptr != base_dir.dir);
+    return nullptr != base_dir.dir;
 #endif // WIN32
 }
 
@@ -76,7 +76,7 @@ bool base_readdir(BASE_DIR & base_dir)
 {
     if (!base_is_opendir(base_dir))
     {
-        return(false);
+        return false;
     }
 
 #ifdef WIN32
@@ -92,7 +92,7 @@ bool base_readdir(BASE_DIR & base_dir)
             base_dir.file_is_dir = 
                 (0 != (file.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY));
 
-            return(true);
+            return true;
         }
     }
 #else
@@ -114,12 +114,12 @@ bool base_readdir(BASE_DIR & base_dir)
                 base_dir.file_is_dir = true;
             }
 
-            return(true);
+            return true;
         }
     }
 #endif // WIN32
 
-    return(false);
+    return false;
 }
 
 NAMESPACE_COMMON_END

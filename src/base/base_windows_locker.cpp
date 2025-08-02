@@ -43,7 +43,7 @@ void WindowsThreadLocker::release()
 
 bool WindowsThreadLocker::try_acquire()
 {
-    return(false);
+    return false;
 }
 
 
@@ -90,7 +90,7 @@ void WindowsProcessLocker::release()
 bool WindowsProcessLocker::try_acquire()
 {
     DWORD ret = WaitForSingleObject(m_locker, 0);
-    return(WAIT_OBJECT_0 == ret);
+    return WAIT_OBJECT_0 == ret;
 }
 
 NAMESPACE_COMMON_END

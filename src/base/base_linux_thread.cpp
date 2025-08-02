@@ -46,7 +46,7 @@ bool LinuxThread::acquire()
     BaseGuard<ThreadLocker> thread_guard(m_locker);
     if (m_running || nullptr == m_func)
     {
-        return(false);
+        return false;
     }
     m_running = true;
     thread_guard.release();
@@ -54,11 +54,11 @@ bool LinuxThread::acquire()
     if (0 != pthread_create(&m_thread, nullptr, m_func, m_argu))
     {
         m_running = false;
-        return(false);
+        return false;
     }
     else
     {
-        return(true);
+        return true;
     }
 }
 
@@ -98,19 +98,19 @@ void LinuxThread::set_thread_args
 
 bool LinuxThread::running() const
 {
-    return(m_running);
+    return m_running;
 }
 
 size_t LinuxThread::thread_id() const
 {
-    return(static_cast<size_t>(pthread_self()));
+    return static_cast<size_t>(pthread_self());
 }
 
 std::string LinuxThread::thread_name()
 {
     BaseGuard<ThreadLocker> thread_guard(m_locker);
 
-    return(m_name);
+    return m_name;
 }
 
 NAMESPACE_COMMON_END
